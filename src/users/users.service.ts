@@ -25,6 +25,5 @@ export class UserService {
     } catch (e) {
       return { ok: false, error: "Couldn't create account" };
     }
-    //& hash the password
   }
 }
