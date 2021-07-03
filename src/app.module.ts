@@ -7,6 +7,7 @@ import { join } from 'path';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { JwtModule } from './jwt/jwt.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,6 +39,7 @@ import { UsersModule } from './users/users.module';
       logging: process.env.NODE_ENV !== 'prod',
       entities: [User],
     }),
+    JwtModule.forRoot(),
     UsersModule,
     CommonModule,
   ],
