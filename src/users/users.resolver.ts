@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { query } from 'express';
 import {
   CreateAccountInput,
   CreateAccountOutput,
@@ -47,4 +48,6 @@ export class UserResolver {
       };
     }
   }
+  @Query((returns) => User)
+  me() {}
 }
