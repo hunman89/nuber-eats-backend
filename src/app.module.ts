@@ -31,7 +31,8 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       }),
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: true,
+      context: ({ req }) => ({ user: req['user'] }),
     }),
 
     TypeOrmModule.forRoot({
@@ -58,7 +59,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(JwtMiddleware).forRoutes({
       path: '/graphql',
-      method: RequestMethod.ALL,
+      method: RequestMethod.POST,
     });
   }
 }
