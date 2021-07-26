@@ -58,8 +58,8 @@ import { MailModule } from './mail/mail.module';
     UsersModule,
     MailModule.forRoot({
       apiKey: process.env.MAILGUN_API_KEY,
-      fromEail: process.env.MAILGUN_DOMAIN_NAME,
-      domain: process.env.MAILGUN_FROM_EMAIL,
+      domain: process.env.MAILGUN_DOMAIN_NAME,
+      fromEail: process.env.MAILGUN_FROM_EMAIL,
     }),
   ],
   controllers: [],
