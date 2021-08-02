@@ -13,7 +13,7 @@ const mockRepository = {
   create: jest.fn(),
 };
 
-const mockJWTService = {
+const mockJwtService = {
   sign: jest.fn(),
   verify: jest.fn(),
 };
@@ -42,7 +42,7 @@ describe('UserService', () => {
         },
         {
           provide: JwtService,
-          useValue: mockJWTService,
+          useValue: mockJwtService,
         },
         {
           provide: MailService,
@@ -54,12 +54,28 @@ describe('UserService', () => {
     usersRepository = module.get(getRepositoryToken(User));
   });
 
-  it('Should be definded', () => {
+  it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
   describe('createAccount', () => {
-    it('should fail if user exist', () => {});
+    it('should fail if user exists', async () => {
+      usersRepository.findOne.mockResolvedValue({
+        id: 1,
+        email: '',
+      });
+      const result = await service.createAccount({
+        email: '',
+        password: '',
+        role: 0,
+      });
+      expect(result).toMatchObject({
+        ok: false,
+        error: 'There is a user with that email already',
+      });
+    });
   });
+
   it.todo('login');
   it.todo('findById');
   it.todo('editProfile');
