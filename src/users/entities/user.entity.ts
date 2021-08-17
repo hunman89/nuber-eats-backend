@@ -9,7 +9,14 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import * as bcrpyt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
-import { IsEmail, isEmail, IsEnum, IsString, isString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  isEmail,
+  IsEnum,
+  IsString,
+  isString,
+} from 'class-validator';
 import { boolean } from 'joi';
 
 enum UserRole {
@@ -39,6 +46,7 @@ export class User extends CoreEntity {
 
   @Column({ default: false })
   @Field((type) => Boolean)
+  @IsBoolean()
   verified: boolean;
 
   @BeforeInsert()
