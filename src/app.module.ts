@@ -66,6 +66,7 @@ import { RestaurnatsModule } from './restaurants/restaurants.module';
       fromEail: process.env.MAILGUN_FROM_EMAIL,
     }),
     RestaurnatsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
