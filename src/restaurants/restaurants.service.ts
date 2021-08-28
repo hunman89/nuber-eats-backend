@@ -9,7 +9,7 @@ import {
   CreateRestaurantInput,
   CreateRestaurantOutput,
 } from './dtos/create-restaurant.dto';
-import { DeleteDishInput } from './dtos/delete-dish.dto';
+import { DeleteDishInput, DeleteDishOutput } from './dtos/delete-dish.dto';
 import {
   DeleteRestaurantInput,
   DeleteRestaurantOutput,
@@ -286,15 +286,44 @@ export class RestaurantService {
   async editDish(
     owner: User,
     editDishInput: EditDishInput,
-  ): Promise<EditDishOutput> {}
+  ): Promise<EditDishOutput> {
+    try {
+      const dish = await this.dishes.findOne(editDishInput.dishId, {
+        relations: ['restaurant'],
+      });
+      if (!dish) {
+        return {
+          ok: false,
+          error: 'Dish not found',
+        };
+      }
+      if (dish.restaurant.onwerId !== owner.id) {
+        return {
+          ok: false,
+          error: "You can't do that.",
+        };
+      }
+      await this.dishes.save([{ id: editDishInput.dishId, ...editDishInput }]);
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      console.log(error);
+
+      return {
+        ok: false,
+        error: 'Could not edit the dish',
+      };
+    }
+  }
 
   async deleteDish(
     owner: User,
     { dishId }: DeleteDishInput,
-  ): Promise<EditDishOutput> {
+  ): Promise<DeleteDishOutput> {
     try {
       const dish = await this.dishes.findOne(dishId, {
-        relations: ['restaurants'],
+        relations: ['restaurant'],
       });
       if (!dish) {
         return {
