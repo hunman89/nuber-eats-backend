@@ -10,7 +10,7 @@ class CreateOrderItemInput {
   dishId: number;
 
   @Field((type) => [OrderItemOption], { nullable: true })
-  options?: OrderItemOption;
+  options?: OrderItemOption[];
 }
 
 @InputType()
@@ -19,7 +19,7 @@ export class CreateOrderInput {
   restaurantId: number;
 
   @Field((type) => [CreateOrderItemInput])
-  items: CreateOrderItemInput;
+  items: CreateOrderItemInput[];
 }
 
 @ObjectType()
