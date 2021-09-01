@@ -32,22 +32,46 @@ export class OrderService {
         error: 'Restaurant not found',
       };
     }
-    items.forEach(async (item) => {
+    let orderFinalPrice = 0;
+    for (const item of items) {
       const dish = await this.dishes.findOne(item.dishId);
       if (!dish) {
-        //abort
+        return {
+          ok: false,
+          error: 'Dish not found',
+        };
       }
+      let dishFinalPrice = dish.price;
+      for (const itemOption of item.options) {
+        const dishOption = dish.options.find(
+          (dishOption) => dishOption.name === itemOption.name,
+        );
+        if (dishOption) {
+          if (dishOption.extra) {
+            dishFinalPrice = dishFinalPrice + dishOption.extra;
+          } else {
+            const dishOptionChoice = dishOption.choices.find(
+              (optionChoice) => optionChoice.name === itemOption.choice,
+            );
+            if (dishOptionChoice.extra) {
+              dishFinalPrice = dishFinalPrice + dishOptionChoice.extra;
+            }
+          }
+        }
+      }
+      orderFinalPrice = orderFinalPrice + dishFinalPrice;
       await this.orderItems.save(
         this.orderItems.create({
           dish,
           options: item.options,
         }),
       );
-    });
+    }
     const order = await this.orders.save(
       this.orders.create({
         customer,
         restaurant,
+        total: orderFinalPrice,
       }),
     );
   }
