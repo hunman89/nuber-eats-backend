@@ -74,7 +74,7 @@ export class RestaurantService {
       if (!restaurant) {
         return { ok: false, error: 'Restaurant not found' };
       }
-      if (owner.id !== restaurant.onwerId) {
+      if (owner.id !== restaurant.ownerId) {
         return {
           ok: false,
           error: "You can't edil a restaurant that you don't own",
@@ -113,7 +113,7 @@ export class RestaurantService {
       if (!restaurant) {
         return { ok: false, error: 'Restaurant not found' };
       }
-      if (owner.id !== restaurant.onwerId) {
+      if (owner.id !== restaurant.ownerId) {
         return {
           ok: false,
           error: "You can't delete a restaurant that you don't own",
@@ -266,7 +266,7 @@ export class RestaurantService {
           error: 'Restaurant not found',
         };
       }
-      if (owner.id !== restaurant.onwerId) {
+      if (owner.id !== restaurant.ownerId) {
         return { ok: false, error: 'you must be owner' };
       }
       await this.dishes.save(
@@ -297,7 +297,7 @@ export class RestaurantService {
           error: 'Dish not found',
         };
       }
-      if (dish.restaurant.onwerId !== owner.id) {
+      if (dish.restaurant.ownerId !== owner.id) {
         return {
           ok: false,
           error: "You can't do that.",
@@ -331,7 +331,7 @@ export class RestaurantService {
           error: 'Dish not found',
         };
       }
-      if (dish.restaurant.onwerId !== owner.id) {
+      if (dish.restaurant.ownerId !== owner.id) {
         return {
           ok: false,
           error: "You can't do that.",
