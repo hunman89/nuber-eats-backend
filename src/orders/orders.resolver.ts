@@ -59,7 +59,8 @@ export class OrderResolver {
   }
 
   @Subscription((returns) => String)
-  potatos() {
+  @Role(['Any'])
+  potatos(@AuthUser() user: User) {
     return pubsub.asyncIterator('Potatos');
   }
 }
