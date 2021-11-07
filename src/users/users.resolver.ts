@@ -11,7 +11,7 @@ import {
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
 import { LoginInput, LoginOutput } from './dtos/login.dto';
 import { UseProfileInput, UserProfileOutput } from './dtos/user-profile.dto';
-import { VerifyEmailInPut, VerifyEmailOutPut } from './dtos/verify-email.dto';
+import { VerifyEmailInput, VerifyEmailOutput } from './dtos/verify-email.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './users.service';
 
@@ -54,10 +54,10 @@ export class UserResolver {
     return this.usersService.editProfile(authUser.id, editProfileInput);
   }
 
-  @Mutation((returns) => VerifyEmailOutPut)
+  @Mutation((returns) => VerifyEmailOutput)
   verifyEmail(
-    @Args('input') { code }: VerifyEmailInPut,
-  ): Promise<VerifyEmailOutPut> {
+    @Args('input') { code }: VerifyEmailInput,
+  ): Promise<VerifyEmailOutput> {
     return this.usersService.verifyEmail(code);
   }
 }
