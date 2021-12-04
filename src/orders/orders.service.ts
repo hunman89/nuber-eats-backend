@@ -52,7 +52,7 @@ export class OrderService {
         if (!dish) {
           return {
             ok: false,
-            error: 'Dish not found',
+            error: 'Dish not found.',
           };
         }
         let dishFinalPrice = dish.price;
@@ -64,11 +64,13 @@ export class OrderService {
             if (dishOption.extra) {
               dishFinalPrice = dishFinalPrice + dishOption.extra;
             } else {
-              const dishOptionChoice = dishOption.choices.find(
+              const dishOptionChoice = dishOption.choices?.find(
                 (optionChoice) => optionChoice.name === itemOption.choice,
               );
-              if (dishOptionChoice.extra) {
-                dishFinalPrice = dishFinalPrice + dishOptionChoice.extra;
+              if (dishOptionChoice) {
+                if (dishOptionChoice.extra) {
+                  dishFinalPrice = dishFinalPrice + dishOptionChoice.extra;
+                }
               }
             }
           }
@@ -95,11 +97,13 @@ export class OrderService {
       });
       return {
         ok: true,
+        orderId: order.id,
       };
-    } catch (error) {
+    } catch (e) {
+      console.log(e);
       return {
         ok: false,
-        error: 'Could not create order',
+        error: 'Could not create order.',
       };
     }
   }
